@@ -39,6 +39,35 @@ flowchart TD
 
 ---
 
+## 📸 Screenshots & Showcase
+
+### Storefront (Nuxt 4)
+
+#### Storefront Homepage
+![Storefront Homepage](images/storefront-home.png)
+
+#### Product Catalog & Dynamic Filtering
+![Product Catalog](images/storefront-catalog.png)
+
+#### Multi-Tenant Theming & Product Grid
+![Multi-Tenant Product Grid](images/storefront-catalog-perfume.png)
+
+#### Product Detail Page
+![Product Detail Page](images/storefront-product-detail.png)
+
+#### Shopping Cart & Checkout Flow
+![Shopping Cart](images/storefront-cart.png)
+
+### Headless Management (Payload CMS 3)
+
+#### Admin Dashboard & Collections Overview
+![Payload CMS Dashboard](images/admin-dashboard.png)
+
+#### Dynamic Content & Layout Management (Globals Editor)
+![Payload CMS Globals Editor](images/admin-globals-editor.png)
+
+---
+
 ## 🏗️ Repository Structure
 
 ```
