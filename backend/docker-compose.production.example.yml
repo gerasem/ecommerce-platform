@@ -1,0 +1,111 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    image: ${BACKEND_IMAGE:?BACKEND_IMAGE is required}
+    env_file: .env
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PAYLOAD_PUBLIC_SERVER_URL: ${PUBLIC_URL:?PUBLIC_URL is required}
+      NEXT_PUBLIC_SERVER_URL: ${PUBLIC_URL:?PUBLIC_URL is required}
+      DATABASE_URI: ${DATABASE_URI:?DATABASE_URI is required}
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET:?PAYLOAD_SECRET is required}
+      CORS_ORIGINS: ${CORS_ORIGINS:?CORS_ORIGINS is required}
+      ENABLE_STRIPE: ${ENABLE_STRIPE:-false}
+      ENABLE_COUPONS: ${ENABLE_COUPONS:-false}
+      ENABLE_REFERRALS: ${ENABLE_REFERRALS:-false}
+      ENABLE_NEWS: ${ENABLE_NEWS:-false}
+      ENABLE_MULTI_CURRENCY: ${ENABLE_MULTI_CURRENCY:-false}
+      ENABLE_INVOICES: ${ENABLE_INVOICES:-false}
+      ENABLE_INVENTORY: ${ENABLE_INVENTORY:-false}
+      ENABLE_VARIANTS: ${ENABLE_VARIANTS:-false}
+      ENABLE_RELATED_PRODUCTS: ${ENABLE_RELATED_PRODUCTS:-true}
+    volumes:
+      - ./data/media:/app/public/media
+      - ./data/svg-media:/app/public/svg-media
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "const net=require('node:net');const socket=net.connect(3000,'127.0.0.1');socket.setTimeout(3000);socket.on('connect',()=>{socket.destroy();process.exit(0)});socket.on('timeout',()=>process.exit(1));socket.on('error',()=>process.exit(1))"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  frontend:
+    image: ${FRONTEND_IMAGE:?FRONTEND_IMAGE is required}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      NUXT_PAYLOAD_URL: http://backend:3000
+      NUXT_PUBLIC_PAYLOAD_URL: ${PUBLIC_URL:?PUBLIC_URL is required}
+      NUXT_SITE_URL: ${PUBLIC_URL:?PUBLIC_URL is required}
+      NUXT_PUBLIC_SITE_NAME: ${SITE_NAME:?SITE_NAME is required}
+      NUXT_PUBLIC_ENABLE_STRIPE: ${ENABLE_STRIPE:-false}
+      NUXT_PUBLIC_ENABLE_COUPONS: ${ENABLE_COUPONS:-false}
+      NUXT_PUBLIC_ENABLE_REFERRALS: ${ENABLE_REFERRALS:-false}
+      NUXT_PUBLIC_ENABLE_NEWS: ${ENABLE_NEWS:-false}
+      NUXT_PUBLIC_ENABLE_RELATED_PRODUCTS: ${ENABLE_RELATED_PRODUCTS:-true}
+      NUXT_PUBLIC_STRIPE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
+      NUXT_PUBLIC_CAPTCHA_PROVIDER: ${CAPTCHA_PROVIDER:?CAPTCHA_PROVIDER is required}
+      NUXT_PUBLIC_RECAPTCHA_SITE_KEY: ${NUXT_PUBLIC_RECAPTCHA_SITE_KEY:-}
+      NUXT_PUBLIC_YANDEX_CAPTCHA_SITE_KEY: ${NUXT_PUBLIC_YANDEX_CAPTCHA_SITE_KEY:-}
+      NUXT_PUBLIC_COOKIE_BANNER_STYLE: ${NUXT_PUBLIC_COOKIE_BANNER_STYLE:-eu}
+      NUXT_PAYLOAD_API_KEY: ${PAYLOAD_API_KEY:-}
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "const net=require('node:net');const socket=net.connect(3001,'127.0.0.1');socket.setTimeout(3000);socket.on('connect',()=>{socket.destroy();process.exit(0)});socket.on('timeout',()=>process.exit(1));socket.on('error',()=>process.exit(1))"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

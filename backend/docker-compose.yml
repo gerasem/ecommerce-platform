@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: payload
+      POSTGRES_PASSWORD: payloadpassword
+      POSTGRES_DB: payload
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+      - media_data:/app/public/media
+      - svg_data:/app/public/svg-media
+
+volumes:
+  pgdata:
+  media_data:
+  svg_data:

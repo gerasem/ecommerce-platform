@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+@theme static {
+  --font-sans: 'Montserrat', sans-serif;
+  
+  /* Brown Primary Palette (Wood / Furniture Aesthetic) */
+  --color-primary-50: #fdf8f5;
+  --color-primary-100: #f9ede6;
+  --color-primary-200: #f2d9cc;
+  --color-primary-300: #e7bfac;
+  --color-primary-400: #d69d82;
+  --color-primary-500: #c67f5f;
+  --color-primary-600: #b96a4b;
+  --color-primary-700: #9a543b;
+  --color-primary-800: #7d4533;
+  --color-primary-900: #653b2d;
+  --color-primary-950: #361d15;
+
+  /* Secondary Palette (Metal / Charcoal) */
+  --color-secondary-50: #f6f6f6;
+  --color-secondary-100: #e7e7e7;
+  --color-secondary-200: #d1d1d1;
+  --color-secondary-300: #b0b0b0;
+  --color-secondary-400: #888888;
+  --color-secondary-500: #6d6d6d;
+  --color-secondary-600: #5d5d5d;
+  --color-secondary-700: #4f4f4f;
+  --color-secondary-800: #454545;
+  --color-secondary-900: #3d3d3d;
+  --color-secondary-950: #000000;
+
+  /* Custom Gray Palette */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f4f4f5;
+  --color-gray-200: #e4e4e7;
+  --color-gray-300: #d4d4d8;
+  --color-gray-400: #a1a1aa;
+  --color-gray-500: #71717a;
+  --color-gray-600: #52525b;
+  --color-gray-700: #3f3f46;
+  --color-gray-800: #27272a;
+  --color-gray-900: #18181b;
+  --color-gray-950: #09090b;
+}
+
+:root {
+  --ui-container: 1600px;
+  --ui-header-height: 100px;
+  --ui-radius: 4px;
+  --ui-border-accented: #d4d4d8;
+}
+
+h1,
+h2,
+.font-serif {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+}
+
+body {
+  background-color: #fafafa;
+  color: var(--color-gray-900);
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+}

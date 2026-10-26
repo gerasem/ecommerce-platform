@@ -1,0 +1,58 @@
+query Page($slug: String!, $locale: LocaleInputType!) {
+  Pages(where: { slug: { equals: $slug } }, locale: $locale) {
+    docs {
+      id
+      title
+      subtitle
+      slug
+      view
+      publishedOn
+      updatedAt
+      layout {
+        ... on ContentBlock {
+          blockType
+          id
+          contentWidth: width
+          customClass
+          content
+        }
+        ... on ConversionBoxesBlock {
+          blockType
+          id
+          boxesWidth: width
+          customClass
+          boxes {
+            content
+            image {
+              url
+              alt
+            }
+            id
+          }
+        }
+        ... on FormBlock {
+          blockType
+          id
+          formWidth: width
+          customClass
+          form {
+            id
+          }
+        }
+        ... on RawHtmlBlock {
+          blockType
+          id
+          html
+        }
+      }
+      meta {
+        title
+        description
+        image {
+          url
+          alt
+        }
+      }
+    }
+  }
+}

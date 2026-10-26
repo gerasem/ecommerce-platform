@@ -1,0 +1,31 @@
+query LatestProducts($limit: Int) {
+  Products(limit: $limit, sort: "-createdAt") {
+    docs {
+      id
+      title
+      slug
+      isPopular
+      baseCurrency
+      priceInEUR
+      priceInUSD
+      description
+      inventory
+      enableVariants
+      variants {
+        docs {
+          id
+          priceInEUR
+          priceInUSD
+        }
+      }
+      gallery {
+        id
+        url
+        thumbnailURL
+        width
+        height
+        alt
+      }
+    }
+  }
+}

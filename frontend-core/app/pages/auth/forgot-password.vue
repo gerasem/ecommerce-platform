@@ -1,0 +1,96 @@
+<script setup lang="ts">
+import { useUserStore } from '../../stores/useUserStore'
+import { getApiErrorMessage } from '@/utils/checkoutError'
+
+import { z } from 'zod'
+import type { FormSubmitEvent } from '#ui/types'
+
+definePageMeta({
+  layout: 'default'
+})
+
+const { t } = useI18n()
+const userStore = useUserStore()
+const toast = useToast()
+
+usePageSeo({
+  title: computed(() => t('Forgot Password')),
+  description: computed(() => t('Reset your password.'))
+})
+
+const schema = z.object({
+  email: z.string().email(t('Invalid email'))
+})
+
+type Schema = z.output<typeof schema>
+
+const state = reactive({
+  email: ''
+})
+
+const success = ref(false)
+
+const onSubmit = async (event: FormSubmitEvent<Schema>) => {
+  try {
+    await userStore.forgotPassword(event.data.email)
+    success.value = true
+    toast.add({
+      title: t('Success'),
+      description: t('Password reset email sent')
+    })
+  } catch (error: unknown) {
+    toast.add({
+      title: t('Error'),
+      description: getApiErrorMessage(error) || t('Failed to send reset email'),
+      color: 'error'
+    })
+  }
+}
+</script>
+
+<template>
+  <div class="flex min-h-[50vh] items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <UCard class="w-full max-w-md">
+      <template #header>
+        <div class="text-center">
+          <h1 class="text-xl leading-tight tracking-tight md:text-2xl">
+            {{ t('Forgot Password') }}
+          </h1>
+          <p class="mt-2 text-sm text-gray-500">
+            {{ t('Enter your email to reset your password') }}
+          </p>
+        </div>
+      </template>
+
+      <div v-if="success" class="text-center space-y-4">
+        <p class="text-green-600">
+          {{ t('We have sent a password reset link to your email.') }}
+        </p>
+        <UButton to="/cabinet" block color="primary" variant="soft">
+          {{ t('Back to Login') }}
+        </UButton>
+      </div>
+
+      <UForm v-else :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
+        <UFormField :label="t('Email')" name="email" required>
+          <UInput
+            v-model="state.email"
+            type="email"
+            placeholder="name@company.com"
+            autocomplete="email"
+          />
+        </UFormField>
+
+        <UButton type="submit" block color="primary" size="lg" :loading="userStore.loading">
+          {{ t('Reset Password') }}
+        </UButton>
+
+        <p class="text-sm font-light text-center text-gray-500">
+          <UButton variant="link" :padded="false" color="primary" to="/cabinet">
+            {{ t('Back to Login') }}
+          </UButton>
+        </p>
+      </UForm>
+    </UCard>
+  </div>
+</template>

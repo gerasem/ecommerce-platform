@@ -1,0 +1,17 @@
+query NewsList($limit: Int) {
+  allNews(limit: $limit, sort: "-publishedOn") {
+    docs {
+      id
+      title
+      slug
+      content
+      publishedOn
+      image {
+        id
+        url
+        thumbnailURL
+        alt
+      }
+    }
+  }
+}

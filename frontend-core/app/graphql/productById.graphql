@@ -1,0 +1,28 @@
+query ProductById($locale: LocaleInputType!, $id: Int!) {
+  Products(locale: $locale, where: { id: { equals: $id } }, limit: 1) {
+    docs {
+      id
+      title
+      slug
+      baseCurrency
+      priceInEUR
+      priceInUSD
+      inventory
+      enableVariants
+      gallery {
+        id
+        url
+        thumbnailURL
+      }
+      variants {
+        docs {
+          id
+          title
+          priceInEUR
+          priceInUSD
+          inventory
+        }
+      }
+    }
+  }
+}

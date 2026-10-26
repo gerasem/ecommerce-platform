@@ -1,0 +1,8 @@
+query SystemPages {
+  Pages(where: { systemRole: { not_equals: none } }, limit: 100) {
+    docs {
+      slug
+      systemRole
+    }
+  }
+}

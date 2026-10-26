@@ -1,0 +1,17 @@
+query NewsBySlug($slug: String!, $locale: LocaleInputType!) {
+  allNews(where: { slug: { equals: $slug } }, limit: 1, locale: $locale) {
+    docs {
+      id
+      title
+      slug
+      content
+      publishedOn
+      image {
+        id
+        url
+        thumbnailURL
+        alt
+      }
+    }
+  }
+}

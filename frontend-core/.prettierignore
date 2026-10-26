@@ -1,0 +1,8 @@
+.nuxt
+.output
+.cache
+node_modules
+dist
+coverage
+package-lock.json
+app/generated

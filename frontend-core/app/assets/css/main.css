@@ -1,0 +1,73 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+@import './font.css';
+
+@theme static {
+  --font-sans: 'Montserrat', sans-serif;
+  /* Custom Primary Color Palette - Blue (#00bfff) */
+  --color-primary-50: #e5fbff;
+  --color-primary-100: #cceeff;
+  --color-primary-200: #99ddff;
+  --color-primary-300: #66ccff;
+  --color-primary-400: #33bbff;
+  --color-primary-500: #00bfff;
+  --color-primary-600: #0099cc;
+  --color-primary-700: #007799;
+  --color-primary-800: #005566;
+  --color-primary-900: #003333;
+  --color-primary-950: #001a1a;
+
+  /* Custom Secondary Color Palette - Green (#a9e200) */
+  --color-secondary-50: #e5fbff;
+  --color-secondary-100: #cceeff;
+  --color-secondary-200: #99ddff;
+  --color-secondary-300: #66ccff;
+  --color-secondary-400: #33bbff;
+  --color-secondary-500: #00bfff;
+  --color-secondary-600: #0099cc;
+  --color-secondary-700: #007799;
+  --color-secondary-800: #005566;
+  --color-secondary-900: #003333;
+  --color-secondary-950: #001a1a;
+
+  /* Custom Gray Palette (project-specific shades) */
+  --color-gray-50: #f7f7f7;
+  /* background-gray */
+  --color-gray-100: #f0f0f0;
+  /* separator */
+  --color-gray-200: #e3e3e3;
+  --color-gray-300: #c8c8c8;
+  --color-gray-400: #aaaaaa;
+  /* muted */
+  --color-gray-500: #787878;
+  /* icons */
+  --color-gray-600: #5d5d5d;
+  --color-gray-700: #454545;
+  --color-gray-800: #2f2f2f;
+  --color-gray-900: #1e1e1e;
+  /* text */
+  --color-gray-950: #0a0a0a;
+}
+
+:root {
+  --ui-container: 1600px;
+  --ui-header-height: 100px;
+  --ui-radius: 0;
+  --ui-border-accented: #ebebeb;
+}
+
+/* Override the default fonts for headers */
+h1,
+h2,
+.font-serif {
+  font-family: 'Kurale', serif;
+  font-weight: 400;
+}
+
+body {
+  background-color: #fff;
+  color: var(--color-gray-900);
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+}

@@ -1,0 +1,19 @@
+services:
+  shop:
+    build:
+      context: .
+      target: development
+    ports:
+      - '3001:3001'
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.nuxt
+      - /app/.output
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+      # Server-side URL inside Docker; browser URL remains localhost.
+      - NUXT_PAYLOAD_URL=http://host.docker.internal:3000
+      - NUXT_PUBLIC_PAYLOAD_URL=http://localhost:3000

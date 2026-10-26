@@ -1,0 +1,38 @@
+query ShopSettings {
+  ShopSetting {
+    categoryOrder {
+      category {
+        id
+        title
+        slug
+      }
+      highlightedProducts {
+        id
+        title
+        slug
+        baseCurrency
+        priceInEUR
+        enableVariants
+        variants {
+          docs {
+            priceInEUR
+          }
+        }
+        gallery {
+          url
+          thumbnailURL
+          alt
+        }
+      }
+    }
+    isSearchable
+    headHtml
+    showHighlightedProducts
+    favicon {
+      url
+      alt
+    }
+    phone
+    email
+  }
+}
